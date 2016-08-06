@@ -7,6 +7,8 @@ var coins = 0;
 var ui = new Ui();
 
 function init(){
+  preLoadTexture();
+  preloadLevels();
   anim();
 }
 
@@ -52,7 +54,31 @@ String.prototype.toHHMMSS = function () {
     return minutes+":"+seconds+':'+millisec[millisec.length-3]+""+millisec[millisec.length-2];
 }
 
-init();
+function onloadHandler() {
+    /// optionally: "this" contains current image just loaded
+    preloader_images_count--;
+    if (preloader_images_count === 0) init();
+}
+
+for(var i = 0; i < preloader_images_count; i++) {
+
+    /// create a new image element
+    var img = new Image();
+
+    /// element is valid so we can push that to stack
+    preloader_images.push(img);
+
+    /// set handler and url
+    img.onload = onloadHandler;
+    img.src = preloader_imageURLs[i];
+
+    /// if image is cached IE (surprise!) may not trigger onload
+//    if (img.complete) onloadHandler().bind(img);
+}
+
+
+
+//init();
 
 
 

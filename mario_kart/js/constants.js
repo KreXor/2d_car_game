@@ -34,17 +34,49 @@ var ITEM_NONE = 0,
     ITEM_STAR = 8;
   //  ITEM_GHOST = 9;
 
+  var preloader_imageURLs = ["media/Mario_pipe.png",
+                    "media/Coin.png",
+                    "media/mario.png",
+                    "media/mario_flip.png",
+                    "media/brick.png",
+                    "media/cloud.png",
+                    "media/map.png",
+                    "media/green_shell.png",
+                    "media/banana_peel.png",
+                    "media/items.png",
+                    "media/tree.png",
+                    "media/menu.png",
+                    "media/mushroom.png",
+                  ],
+      preloader_images = [],
+      preloader_images_count = preloader_imageURLs.length;
 
 //Textures
-var PIPE_TEXTURE = new MapTexture("Mario_pipe.png", 0, 0, 0, 0),
-    COIN_TEXTURE = new MapTexture("Coin.png", 0, 0, 0, 0),
-    MARIO_TEXTURE = new MapTexture("mario.png", 36, 36, 1, 0),
-    BRICK_TEXTURE = new MapTexture("brick.png", 0, 0, 0, 0),
-    CLOUD_TEXTURE = new MapTexture("cloud.png", 0, 0, 0, 0),
-    MAP_TEXTURE = new MapTexture("map.png", 0, 0, 0, 0),
-    GREEN_SHELL_TEXTURE = new MapTexture("green_shell.png", 0, 0, 0, 0),
-    BANANA_PEEL_TEXTURE = new MapTexture("banana_peel.png", 0, 0, 0, 0),
-    ITEMS_TEXTURE = new MapTexture("items.png", 32, 0, 0, 0);
-    TREE_TEXTURE = new MapTexture("tree.png", 0, 0, 0, 0);
-    MAIN_MENY_BACKGROUND = new MapTexture("menu.png", 0, 0, 0, 0);
-    MUSHROOM = new MapTexture("mushroom.png", 0, 0, 0, 0);
+var PIPE_TEXTURE = 0,
+    COIN_TEXTURE = 0,
+    MARIO_TEXTURE = 0,
+    BRICK_TEXTURE = 0,
+    CLOUD_TEXTURE = 0,
+    MAP_TEXTURE = 0,
+    GREEN_SHELL_TEXTURE = 0,
+    BANANA_PEEL_TEXTURE = 0,
+    ITEMS_TEXTURE = 0,
+    TREE_TEXTURE = 0,
+    MAIN_MENY_BACKGROUND = 0,
+    MUSHROOM = 0;
+
+function preLoadTexture() {
+  PIPE_TEXTURE = new MapTexture("Mario_pipe.png", 0, 0, 0, 0);
+  COIN_TEXTURE = new MapTexture("Coin.png", 0, 0, 0, 0);
+  MARIO_TEXTURE = new MapTexture("mario.png", 36, 36, 1, 0);
+  BRICK_TEXTURE = new MapTexture("brick.png", 0, 0, 0, 0);
+  CLOUD_TEXTURE = new MapTexture("cloud.png", 0, 0, 0, 0);
+  MAP_TEXTURE = new MapTexture("map.png", 0, 0, 0, 0);
+  GREEN_SHELL_TEXTURE = new MapTexture("green_shell.png", 0, 0, 0, 0);
+  BANANA_PEEL_TEXTURE = new MapTexture("banana_peel.png", 0, 0, 0, 0);
+  ITEMS_TEXTURE = new MapTexture("items.png", 32, 0, 0, 0);
+  TREE_TEXTURE = new MapTexture("tree.png", 0, 0, 0, 0);
+  MAIN_MENY_BACKGROUND = new MapTexture("menu.png", 0, 0, 0, 0);
+  MUSHROOM = new MapTexture("mushroom.png", 0, 0, 0, 0);
+
+}

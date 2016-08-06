@@ -112,10 +112,11 @@ MapObject.prototype.draw = function(){
   //resize object in distance to player
   for( var i = 0; i < this.points.length; ++i )
     this.points[ i ].dimensionize();
-
+  if(this.texture != 0) {
   ctx.drawImage(this.texture.get(),(this.texture.frame_x*this.texture.width), (this.texture.frame_y*this.texture.height), this.texture.width,this.texture.height,
     this.points[ 0 ].screen.x,
     this.points[ 0 ].screen.y,
     (this.points[ 2 ].screen.x - this.points[ 0 ].screen.x),
     (this.points[ 0 ].screen.y - this.points[ 1 ].screen.y));
+  }
 }

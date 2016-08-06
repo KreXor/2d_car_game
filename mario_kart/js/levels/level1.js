@@ -15,8 +15,10 @@ var level1_walls = [
 
 
                   ]
+var level1 = 0;
 
-var level1 = [
+function preloadLevels(){
+   level1 = [
     new MapObject(SOLID, PIPE_TEXTURE, 500, 0, -1800, 100, 50),
     new MapObject(BLOCK, BRICK_TEXTURE, 2700, 0, -1650, 40, 40),
     new MapObject(COIN, COIN_TEXTURE, 400, 0, -1500, 30, 30),
@@ -64,3 +66,4 @@ var level1 = [
 
   //  new MapObject(SOLID, TREE_TEXTURE, (*14.2), 0, (*13.8)*-1, 300, 40),
    ];
+ }
