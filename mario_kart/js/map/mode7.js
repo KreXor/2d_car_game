@@ -13,7 +13,6 @@ function Mode7(map) {
   ctx.fillStyle = grd;
   ctx.fillRect( 0, 0, w, h );
 
-
   stage_image = ctx.getImageData( 0, 0, this.stageWidth, this.stageHeight );
   stage_data = stage_image.data;
 
@@ -22,9 +21,6 @@ function Mode7(map) {
   this.texture.addEventListener('load', loadData, false);
   this.texture.src = map;
 
-
-
-//  this.loadData();
 }
 
 function loadData() {

@@ -6,30 +6,14 @@ var keyPressed = {};
 var coins = 0;
 var ui = new Ui();
 
-
-
 function init(){
   anim();
 }
 
-function Timer () {
-  this.elapsed = 0
-  this.last = null
-}
-
-Timer.prototype = {
-   tick: function (now) {
-     this.elapsed = ((now - this.last) / 1000)
-     this.last = now
-  },
-  fps: function () {
-    return 1/this.elapsed
-  }
-}
 var timer = new Timer()
 var game_state = STATE_MAIN_MENU;
-
 var lastFrameTime = 0;
+
 function anim(now){
 
   var deltaTime = (now - lastFrameTime)/1000;
@@ -40,8 +24,8 @@ function anim(now){
   if(game_state == STATE_MAIN_MENU) {
     main_menu.draw();
     main_menu.update();
-    //game_state = STATE_PLAY_MAP;
   }
+
   if(game_state == STATE_PLAY_MAP)
   {
     //Draw and updates
@@ -53,9 +37,7 @@ function anim(now){
 
     ui.draw(now, coins)
   }
-
 }
-
 
 String.prototype.toHHMMSS = function () {
     var sec_num = parseInt(this, 10); // don't forget the second param

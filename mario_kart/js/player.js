@@ -27,7 +27,6 @@ function Player(texture) {
 
   this.coins = 0;
 
-
   this.vf = 0;
   this.vz = 0;
   this.vy = 0;
@@ -52,10 +51,10 @@ Player.prototype.loadTexture = function(texture) {
 
 Player.prototype.itemTaken = function() {
   if(this.item == ITEM_NONE) {
-    ui.playItemAnimation(Math.floor(Math.random()*3)+1);
-    //console.log(this.item);
+    ui.playItemAnimation(Math.floor(Math.random()*3)+1); //TODO: FIX THIS FUCKING SHIT!
   }
 }
+
 Player.prototype.itemHit = function(item) {
   if(item == ITEM_BANAN_PEEL) {
     this.state = PLAYER_STATE_SPIN;
@@ -63,6 +62,8 @@ Player.prototype.itemHit = function(item) {
   }
 
 }
+
+//Handler when player uses an item.
 Player.prototype.useItem = function() {
   if(this.item != ITEM_NONE) {
     if(this.item == ITEM_GREEN_SHELL) {
@@ -106,6 +107,7 @@ Player.prototype.setCollision = function(coll) {
   this.collision = coll;
 }
 
+//Rotate camera around player.
 Player.prototype.rotate = function(r){
   this.setR(camera.r + r);
   if(r > 0) {
@@ -123,7 +125,6 @@ Player.prototype.update = function(now, deltaTime) {
   //Get road type that player are driving on.
   var p = ctx.getImageData(w/2,h-30,1,1).data;
   this.road_type = map.checkColor(p[0], p[1], p[2]);
-
 
   //Handle jump
   if(player.state != PLAYER_STATE_JUMP)
@@ -168,7 +169,7 @@ Player.prototype.handleInput = function(now, deltaTime) {
   else if(keyPressed[this.key_back]) {
     this.addForce(-this.deacceleration, deltaTime);
   }
-  else {
+  else { //Deacceleration if player not acceleration
     if(this.vf > 0)
       this.addForce(-map.deacceleration, deltaTime);
     else if(this.vf < 0)
@@ -202,16 +203,20 @@ Player.prototype.calculateJump = function(deltaTime) {
 }
 
 Player.prototype.addForce = function(forward_force, deltaTime) {
-  //camera.update(); //is this needed here?
-  this.vf += forward_force * deltaTime;
+
   if(this.vf > this.offroad_max_speed && this.road_type != ROAD) {
-    if((keyPressed[this.key_left] && !keyPressed[this.key_forward]) || (keyPressed[this.key_right] && !keyPressed[this.key_forward]))
-       this.vf += (forward_force * deltaTime)*8;
-    else {
+    if(forward_force > 0) {
       this.vf -= (forward_force * deltaTime)*8;
     }
+    else {
+      this.vf += (forward_force * deltaTime)*8;
+    }
   }
-  else if (this.vf > this.max_speed) {
+  else {
+    this.vf += forward_force * deltaTime;
+  }
+
+  if (this.vf > this.max_speed) {
     this.vf = this.max_speed;
   }
   if (this.vf < this.max_back_speed*-1)
@@ -222,8 +227,8 @@ Player.prototype.addForce = function(forward_force, deltaTime) {
 
 Player.prototype.move = function(deltaTime) {
   if(this.vf != 0) {
-    this.x += camera.sin * ((this.vf*-1) * deltaTime);
-    this.z += camera.cos * ((this.vf*-1) * deltaTime);
+    this.x -= camera.sin * (this.vf * deltaTime);
+    this.z -= camera.cos * (this.vf * deltaTime);
   }
 }
 
