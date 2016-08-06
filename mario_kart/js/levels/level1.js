@@ -1,3 +1,21 @@
+var level1_walls = [
+                    //wall around map
+                    new WallObject(0, 0, 150, -7200),
+                    new WallObject(0, 0, 7200, -100),
+                    new WallObject(0, -7168, 7200, -62),
+                    new WallObject(7168, 0, 62, -7200),
+
+                    //Big square at start
+                    new WallObject((80*14.2), (80*14.2)*-1, (58*14.2), (346*14.2)*-1),
+
+                    //Big suare middle down
+                    new WallObject((227*14.0), (0*14.2)*-1, (56*14.0), (115*14.8)*-1),
+                  //  new WallObject((*14.2), (*14.2)*-1, (*14.2), (*14.2)*-1),
+
+
+
+                  ]
+
 var level1 = [
     new MapObject(SOLID, PIPE_TEXTURE, 500, 0, -1800, 100, 50),
     new MapObject(BLOCK, BRICK_TEXTURE, 2700, 0, -1650, 40, 40),

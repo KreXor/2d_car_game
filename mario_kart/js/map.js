@@ -1,4 +1,9 @@
-
+function WallObject(x,y,width,height){
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
+}
 
 function MapObject(type, texture, x, y, z, height, width, rotation) {
   this.vf = 0;
@@ -67,7 +72,7 @@ MapObject.prototype.setRelativeDist = function(){
   this.point.dimensionize();
 }
 
-MapObject.prototype.onCollision = function(x, y, z){
+MapObject.prototype.onPlayerCollision = function(x, y, z){
 //  if(this.type == SOLID || this.type == COIN || this.type == BLOCK) {
     if(this.point.screen.x + this.width*this.point.screen.scale > w/2-15 &&
       this.point.screen.x - this.width*this.point.screen.scale < w/2+15  &&
@@ -80,7 +85,25 @@ MapObject.prototype.onCollision = function(x, y, z){
     }
 //  }
   return false;
+}
 
+
+MapObject.prototype.onWallCollision = function(){
+//  if(this.type == SOLID || this.type == COIN || this.type == BLOCK) {
+    for(var wall in map.wallObjects)
+    {
+      //  console.log(map.wallObjects[wall].y +" "+ map.wallObjects[wall].height + " " + this.points[0].z +" "+ this.height)
+  //    console.log("wall found!");
+      if(map.wallObjects[wall].x < this.points[0].x + this.width &&
+         map.wallObjects[wall].x + map.wallObjects[wall].width > this.points[0].x &&
+         map.wallObjects[wall].y > this.points[0].z - this.height &&
+         map.wallObjects[wall].y + map.wallObjects[wall].height < this.points[0].z ) {
+      //     console.log("object hit!");
+          return wall;
+      }
+    }
+//  }
+  return -1;
 }
 MapObject.prototype.draw = function(){
 
@@ -138,7 +161,7 @@ function PlayerObject(type, texture, x, y, z, height, width, rotation, id) {
 //Map function from here:
 function Map(map) {
   this.mapObjects = [];
-  this.road_colors = [];
+  this.wallObjects = [];
 
   this.gravity = 600;
   this.deacceleration = 150;
@@ -163,6 +186,9 @@ Map.prototype.loadLevel1 = function() {
 
   //Add item to map
   this.mapObjects = level1;
+  this.wallObjects = level1_walls;
+
+
 //  this.spawnItem(new PlayerObject(PLAYER, MARIO_TEXTURE, 450, 0, -3700, 55, 30, 5));
   //Add clouds
   this.setSkyProperties();
@@ -200,8 +226,8 @@ Map.prototype.checkColor = function(r, g, b) {
       return ROAD;
 
 
-  if(b>g+20 && b>r+20 || g>r+20 && g>b+20)
-    return WALL;
+/*  if(b>g+20 && b>r+20 || g>r+20 && g>b+20)
+    return WALL;*/
 
 
   return false;
@@ -214,10 +240,19 @@ Map.prototype.update = function(deltaTime) {
 
   for( var i = 0; i < this.mapObjects.length; ++i ) {
     if(this.mapObjects[ i ].vf > 0){
-      this.mapObjects[ i ].move((( Math.sin(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf )*-1)*deltaTime , 0, ((Math.cos(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf)*-1)*deltaTime)
+  //    console.log(this.mapObjects[ i ].vd);
+      var tempObject = this.mapObjects[ i ];
+      tempObject.move((( Math.sin(tempObject.vd) * tempObject.vf )*-1)*deltaTime , 0, ((Math.cos(tempObject.vd) * tempObject.vf)*-1)*deltaTime);
+
+      if(tempObject.onWallCollision() != -1) {
+        this.mapObjects.splice(i, 1);
+      //  this.mapObjects[ i ].vd += 0.5;
+      }
+
+      this.mapObjects[ i ].move((( Math.sin(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf )*-1)*deltaTime , 0, ((Math.cos(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf)*-1)*deltaTime);
 
     }
-    var type = this.mapObjects[ i ].onCollision(camera.x, camera.y, camera.z);
+    var type = this.mapObjects[ i ].onPlayerCollision(camera.x, camera.y, camera.z);
 
     //update coin objects
     if(type == COIN)
@@ -234,6 +269,25 @@ Map.prototype.update = function(deltaTime) {
       player.itemHit(ITEM_BANAN_PEEL);
     }
   }
+
+  this.onWallPlayerCollision();
+}
+
+Map.prototype.onWallPlayerCollision = function(){
+    for(var wall in map.wallObjects)
+    {
+      if(map.wallObjects[wall].x < (player.x - Math.sin(player.r)*220) + 50 &&
+         map.wallObjects[wall].x + map.wallObjects[wall].width > (player.x - Math.sin(player.r)*220)  &&
+         map.wallObjects[wall].y > (player.z - Math.cos(player.r)*200) - 100 &&
+         map.wallObjects[wall].y + map.wallObjects[wall].height < (player.z - Math.cos(player.r)*220)  ) {
+
+           console.log("hit!");
+           player.setCollision(true);
+          return wall;
+      }
+    }
+//  }
+  return -1;
 }
 
 Map.prototype.draw = function() {
