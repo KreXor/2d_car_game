@@ -55,6 +55,7 @@ Player.prototype.itemTaken = function() {
   }
 }
 
+//TODO: IMPLEMENT ALL ITEMS.
 Player.prototype.itemHit = function(item) {
   if(item == ITEM_BANAN_PEEL) {
     this.state = PLAYER_STATE_SPIN;
@@ -192,9 +193,11 @@ Player.prototype.handleInput = function(now, deltaTime) {
 }
 
 Player.prototype.calculateJump = function(deltaTime) {
+  //Calculate new y position for player.
   this.y += this.vy * deltaTime
   this.vy -= map.gravity * deltaTime;
 
+  //If player is on ground change state to driving.
   if(this.y <= 0) {
     this.state = PLAYER_STATE_DRIVE;
     this.vy = 0;
@@ -204,6 +207,7 @@ Player.prototype.calculateJump = function(deltaTime) {
 
 Player.prototype.addForce = function(forward_force, deltaTime) {
 
+  //If we are off road the max speed is lowered.
   if(this.vf > this.offroad_max_speed && this.road_type != ROAD) {
     if(forward_force > 0) {
       this.vf -= (forward_force * deltaTime)*8;
@@ -212,13 +216,16 @@ Player.prototype.addForce = function(forward_force, deltaTime) {
       this.vf += (forward_force * deltaTime)*8;
     }
   }
-  else {
+  else { //If we have not reached max speed add force to vf
     this.vf += forward_force * deltaTime;
   }
 
+  //if player velocity forward is bigger the the max speed, set vf to max:sepeed
   if (this.vf > this.max_speed) {
     this.vf = this.max_speed;
   }
+
+  //Check reverse max speed.
   if (this.vf < this.max_back_speed*-1)
   {
     this.vf = this.max_back_speed*-1;

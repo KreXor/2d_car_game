@@ -47,3 +47,4 @@ var PIPE_TEXTURE = new MapTexture("Mario_pipe.png", 0, 0, 0, 0),
     ITEMS_TEXTURE = new MapTexture("items.png", 32, 0, 0, 0);
     TREE_TEXTURE = new MapTexture("tree.png", 0, 0, 0, 0);
     MAIN_MENY_BACKGROUND = new MapTexture("menu.png", 0, 0, 0, 0);
+    MUSHROOM = new MapTexture("mushroom.png", 0, 0, 0, 0);
