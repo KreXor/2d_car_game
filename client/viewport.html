@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="default.css">
+  <!--  <script src="http://ec2-54-229-3-1.eu-west-1.compute.amazonaws.com:8000/socket.io/socket.io.js"></script> -->
+    <style>
+      @font-face { font-family: mario; src: url('fonts/SuperMario256.ttf'); }
+    </style>
+  </head>
+  <body style="background-color: black; color:white">
+<!--    <table>
+      <tr>
+        <td>
+          Max speed: <input type="range" name="player_speed" min="0" max="10000" onChange="player.max_speed=(this.value); document.getElementById('max_speed').innerHTML=(this.value)">
+          <div id="max_speed"></div>
+        </td>
+        <td>
+          Acceleration: <input type="range" name="acceleration" min="0" max="1000" onChange="player.acceleration=(this.value); document.getElementById('acceleration').innerHTML=(this.value)">
+          <div id="acceleration"></div>
+        </td>
+        <td>
+          Brakes: <input type="range" name="deacceleration" min="0" max="1000" onChange="player.deacceleration=(this.value); document.getElementById('deacceleration').innerHTML=(this.value)">
+          <div id="deacceleration"></div>
+        </td>
+        <td>
+          Max reverse speed: <input type="range" name="deacceleration" min="0" max="1000" onChange="player.max_back_speed=(this.value); document.getElementById('max_back_speed').innerHTML=(this.value)">
+          <div id="max_back_speed"></div>
+        </td>
+        <td>
+          Offroad max speed: <input type="range" name="offroad_max_speed" min="0" max="1000" onChange="player.offroad_max_speed=(this.value); document.getElementById('offroad_max_speed').innerHTML=(this.value)">
+          <div id="offroad_max_speed"></div>
+        </td>
+        <td>
+          Map deacceleration <input type="range" name="map_deacceleration" min="0" max="1000" onChange="map.deacceleration=(this.value); document.getElementById('map_deacceleration').innerHTML=(this.value)">
+          <div id="map_deacceleration"></div>
+        </td>
+        <td>
+          Coins: <input type="range" name="coins" min="0" max="10000" onChange="player.coins=(this.value); document.getElementById('coins').innerHTML=(this.value)">
+          <div id="coins"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Gravity: <input type="range" name="map_gravity" min="0" max="10000" onChange="map.gravity=(this.value); document.getElementById('map_gravity').innerHTML=(this.value)">
+          <div id="map_gravity"></div>
+        </td>
+        <td>
+          Jump force: <input type="range" name="jump_force" min="0" max="10000" onChange="player.jump_force=(this.value); document.getElementById('jump_force').innerHTML=(this.value)">
+          <div id="jump_force"></div>
+        </td>
+        <td>
+          Jump cooldown: <input type="range" name="jump_cooldown" min="0" max="10000" onChange="player.jump_cooldown=(this.value); document.getElementById('jump_cooldown').innerHTML=(this.value)">
+          <div id="jump_cooldown"></div>
+        </td>
+      </tr>
+    </table>-->
+      <canvas id='viewport' style="width: 100%; height: 70%; top:15%;"></canvas>
+  </body>
+
+  <script type="text/javascript" src="js/utilities/fps.js"></script>
+  <script type="text/javascript" src="js/map/map_texture.js"></script>
+  <script type="text/javascript" src="js/constants.js"></script>
+  <script type="text/javascript" src="js/point.js"></script>
+  <script type="text/javascript" src="js/camera.js"></script>
+  <script type="text/javascript" src="js/player.js"></script>
+  <script type="text/javascript" src="js/map/mode7.js"></script>
+  <script type="text/javascript" src="js/map/map_object.js"></script>
+  <script type="text/javascript" src="js/map/map.js"></script>
+  <script type="text/javascript" src="js/levels/level1.js"></script>
+  <script type="text/javascript" src="js/ui.js"></script>
+  <script type="text/javascript" src="js/menu/main_menu.js"></script>
+  <script type="text/javascript" src="js/network/network.js"></script>
+  <script type="text/javascript" src="js/game.js"></script>
+</html>
+
+<script>
+/*  document.getElementById('max_speed').innerHTML=(player.max_speed);
+  document.getElementById('acceleration').innerHTML=(player.acceleration);
+  document.getElementById('deacceleration').innerHTML=(player.deacceleration);
+  document.getElementById('max_back_speed').innerHTML=(player.max_back_speed);
+  document.getElementById('offroad_max_speed').innerHTML=(player.offroad_max_speed);
+  document.getElementById('map_deacceleration').innerHTML=(map.deacceleration);
+  document.getElementById('coins').innerHTML=(player.coins);
+  document.getElementById('map_gravity').innerHTML=(map.gravity);
+  document.getElementById('jump_force').innerHTML=(player.jump_force);
+  document.getElementById('jump_cooldown').innerHTML=(player.jump_cooldown);
+*/
+</script>
