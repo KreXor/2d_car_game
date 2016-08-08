@@ -35,6 +35,10 @@ function Player(texture) {
   this.z = -3700;
   this.r = 3.14;
 
+  this.oldx = 0;
+  this.oldy = 0;
+  this.oldz = 0;
+
   this.animationFrame = 1;
   this.imgSprite = new Image();
   this.imgSprite_flip = new Image();
@@ -68,7 +72,7 @@ Player.prototype.itemHit = function(item) {
 Player.prototype.useItem = function() {
   if(this.item != ITEM_NONE) {
     if(this.item == ITEM_GREEN_SHELL) {
-      var obj = new MapObject(ITEM_GREEN_SHELL, GREEN_SHELL_TEXTURE,  (camera.x - Math.sin(camera.r)*300) , 0, (camera.z - Math.cos(camera.r)*300) , 50, 25);
+      var obj = new MapObject(ITEM_GREEN_SHELL, GREEN_SHELL_TEXTURE,  (camera.x - Math.sin(camera.r)*300) , 0, (camera.z - Math.cos(camera.r)*300) , 50, 25, camera.r, 0);
       obj.setMovement(this.vf+500, camera.r);
       map.spawnItem(obj);
    }
@@ -123,6 +127,9 @@ Player.prototype.rotate = function(r){
 
 Player.prototype.update = function(now, deltaTime) {
 
+  //check wall collision with player
+  this.onWallCollision();
+
   //Get road type that player are driving on.
   var p = ctx.getImageData(w/2,h-30,1,1).data;
   this.road_type = map.checkColor(p[0], p[1], p[2]);
@@ -141,10 +148,15 @@ Player.prototype.update = function(now, deltaTime) {
     this.move(deltaTime);
   }
 
+
   //Update camera to follow player
   camera.setX(this.x);
   camera.setZ(this.z);
   camera.setR(this.r);
+
+  this.oldx = this.x;
+  this.oldy = this.y;
+  this.oldz = this.z;
 
   network.updatePlayer();
 }
@@ -237,6 +249,30 @@ Player.prototype.move = function(deltaTime) {
     this.x -= camera.sin * (this.vf * deltaTime);
     this.z -= camera.cos * (this.vf * deltaTime);
   }
+}
+
+Player.prototype.onWallCollision = function(){
+  for(var wall in map.wallObjects)
+  {
+    if(map.wallObjects[wall].x < (player.x - Math.sin(player.r)*220) + 50 &&
+       map.wallObjects[wall].x + map.wallObjects[wall].width > (player.x - Math.sin(player.r)*220)  &&
+       map.wallObjects[wall].y > (player.z - Math.cos(player.r)*200) - 100 &&
+       map.wallObjects[wall].y + map.wallObjects[wall].height < (player.z - Math.cos(player.r)*220)  ) {
+
+        if(this.oldx <  map.wallObjects[wall].x)
+          console.log("hit right");
+        if(this.oldx >  map.wallObjects[wall].x+map.wallObjects[wall].width)
+          console.log("hit left");
+        if(this.oldz >  map.wallObjects[wall].y)
+          console.log("hit down");
+        if(this.oldz <  map.wallObjects[wall].y+map.wallObjects[wall].height)
+          console.log("hit up");
+
+         player.setCollision(true);
+         return wall;
+    }
+  }
+  return -1;
 }
 
 Player.prototype.draw = function() {

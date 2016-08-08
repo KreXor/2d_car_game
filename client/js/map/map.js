@@ -108,52 +108,74 @@ Map.prototype.update = function(deltaTime) {
 
   for( var i = 0; i < this.mapObjects.length; ++i ) {
     if(this.mapObjects[ i ].vf > 0) {
-      var tempObject = this.mapObjects[ i ];
-      tempObject.move((( Math.sin(tempObject.vd) * tempObject.vf )*-1)*deltaTime , 0, ((Math.cos(tempObject.vd) * tempObject.vf)*-1)*deltaTime);
-
-      if(tempObject.onWallCollision() != -1) {
-        this.mapObjects.splice(i, 1);
-      //  this.mapObjects[ i ].vd += 0.5;
-      }
 
       this.mapObjects[ i ].move((( Math.sin(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf )*-1)*deltaTime , 0, ((Math.cos(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf)*-1)*deltaTime);
 
+      var hit_direction = this.mapObjects[ i ].onWallCollision();
+
+      if(hit_direction != -1) {
+
+        //Add bounce
+        if(hit_direction == DIRECTION_RIGHT) {
+          this.mapObjects[ i ].vd = this.mapObjects[ i ].vd*-1;
+          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x-30;
+          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z;
+        }
+        else if(hit_direction == DIRECTION_LEFT) {
+          this.mapObjects[ i ].vd = this.mapObjects[ i ].vd *-1;
+          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x+30;
+          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z;
+
+        }
+        else if(hit_direction == DIRECTION_DOWN) {
+          this.mapObjects[ i ].vd = (this.mapObjects[ i ].vd * this.mapObjects[ i ].vd) ;
+          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x;
+          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z-30;
+        }
+        else if(hit_direction == DIRECTION_UP) {
+          this.mapObjects[ i ].vd = ((this.mapObjects[ i ].vd - 1.57)*-1)+1.57;
+          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x;
+          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z+30;
+
+        }
+        else if(hit_direction == 0){
+          console.log("0");
+          this.mapObjects.splice(i, 1);
+        }
+      }
+
+      this.mapObjects[ i ].previous_x = this.mapObjects[ i ].point.x;
+      this.mapObjects[ i ].previous_z = this.mapObjects[ i ].point.z;
+
+      this.mapObjects[ i ].rotate( this.mapObjects[ i ].r );
     }
+
     var type = this.mapObjects[ i ].onPlayerCollision(camera.x, camera.y, camera.z);
 
-    //update coin objects
-    if(type == COIN)
-    {
-      this.mapObjects.splice(i, 1);
-      player.coins += 1;
-    }
-    if(type == BLOCK)
-    {
-      player.itemTaken();
-    }
-    if(type == ITEM_BANAN_PEEL)
-    {
-      player.itemHit(ITEM_BANAN_PEEL);
-    }
-  }
+    this.handleObjectCollision(type, i);
 
-  this.onWallPlayerCollision();
+  }
 }
 
-Map.prototype.onWallPlayerCollision = function(){
-  for(var wall in map.wallObjects)
+Map.prototype.handleObjectCollision = function(type, index){
+  if(type == COIN)
   {
-    if(map.wallObjects[wall].x < (player.x - Math.sin(player.r)*220) + 50 &&
-       map.wallObjects[wall].x + map.wallObjects[wall].width > (player.x - Math.sin(player.r)*220)  &&
-       map.wallObjects[wall].y > (player.z - Math.cos(player.r)*200) - 100 &&
-       map.wallObjects[wall].y + map.wallObjects[wall].height < (player.z - Math.cos(player.r)*220)  ) {
-
-         console.log("hit!");
-         player.setCollision(true);
-        return wall;
-    }
+    this.mapObjects.splice(index, 1);
+    player.coins += 1;
   }
-  return -1;
+  if(type == BLOCK)
+  {
+    player.itemTaken();
+  }
+  if(type == ITEM_BANAN_PEEL)
+  {
+    player.itemHit(ITEM_BANAN_PEEL);
+  }
+  if(type == ITEM_GREEN_SHELL)
+  {
+    this.mapObjects.splice(index, 1);
+    player.itemHit(ITEM_GREEN_SHELL);
+  }
 }
 
 Map.prototype.draw = function() {

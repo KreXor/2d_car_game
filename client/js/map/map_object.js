@@ -1,4 +1,4 @@
-function MapObject(type, texture, x, y, z, height, width, rotation) {
+function MapObject(type, texture, x, y, z, height, width, rotation, in_rotation) {
   this.vf = 0;
   this.vd = 0;
 
@@ -12,11 +12,13 @@ function MapObject(type, texture, x, y, z, height, width, rotation) {
 			length = length;
 
   this.point = new Point( x, y, z );
+  this.previous_x = this.point.x;
+  this.previous_z = this.point.z;
 
   this.width = width;
   this. height = height;
 
-
+  this.in_rotation = in_rotation;
   this.rotate(rotation * Math.PI/180);
 
 }
@@ -84,11 +86,37 @@ MapObject.prototype.onPlayerCollision = function(x, y, z){
 MapObject.prototype.onWallCollision = function(){
   for(var wall in map.wallObjects)
   {
+
     if(map.wallObjects[wall].x < this.points[0].x + this.width &&
        map.wallObjects[wall].x + map.wallObjects[wall].width > this.points[0].x &&
        map.wallObjects[wall].y > this.points[0].z - this.height &&
        map.wallObjects[wall].y + map.wallObjects[wall].height < this.points[0].z ) {
-        return wall;
+         if(this.in_rotation != undefined)
+           rotation = this.in_rotation;
+
+         var cos = Math.cos( rotation ) * this.width,
+             sin = Math.sin( rotation ) * this.width;
+
+         if(this.previous_z - sin >  map.wallObjects[wall].y) {
+          //console.log("hit down");
+           return DIRECTION_UP;
+         }
+         if(this.previous_z - sin <  map.wallObjects[wall].y + map.wallObjects[wall].height+30) {
+          // console.log("hit up");
+           return DIRECTION_DOWN;
+         }
+
+         if(this.previous_x - cos <  map.wallObjects[wall].x)  {
+           //console.log("hit right");
+           return DIRECTION_RIGHT;
+         }
+         if(this.previous_x- cos >  map.wallObjects[wall].x) {
+          // console.log("hit left");
+           return DIRECTION_LEFT;
+         }
+
+        //console.log("no direction :(");
+        return 0;
     }
   }
   return -1;
@@ -108,6 +136,8 @@ MapObject.prototype.draw = function(){
   else {
     this.rotate( camera.r * -1  );
   }
+
+
 
   //resize object in distance to player
   for( var i = 0; i < this.points.length; ++i )
