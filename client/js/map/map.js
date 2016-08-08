@@ -108,7 +108,6 @@ Map.prototype.update = function(deltaTime) {
 
   for( var i = 0; i < this.mapObjects.length; ++i ) {
     if(this.mapObjects[ i ].vf > 0) {
-
       this.mapObjects[ i ].move((( Math.sin(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf )*-1)*deltaTime , 0, ((Math.cos(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf)*-1)*deltaTime);
 
       var hit_direction = this.mapObjects[ i ].onWallCollision();
@@ -128,7 +127,7 @@ Map.prototype.update = function(deltaTime) {
 
         }
         else if(hit_direction == DIRECTION_DOWN) {
-          this.mapObjects[ i ].vd = (this.mapObjects[ i ].vd * this.mapObjects[ i ].vd) ;
+          this.mapObjects[ i ].vd = ((this.mapObjects[ i ].vd - 1.57)*-1)+1.57;
           this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x;
           this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z-30;
         }
