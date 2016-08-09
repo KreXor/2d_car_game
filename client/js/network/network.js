@@ -11,16 +11,16 @@ Network.prototype.onSocketDisconnect = function() {
 };
 
 Network.prototype.onNewPlayer = function(data) {
-  map.spawnPlayer(data);
+  map.spawnNetworkPlayer(data);
 };
 
 Network.prototype.onMovePlayer = function(data) {
-  map.updatePlayer(data);
+  map.updateNetworkPlayer(data);
 
 };
 
 Network.prototype.onRemovePlayer = function(data) {
-  map.removePlayer(data.id);
+  map.removeNetworkPlayer(data.id);
 };
 
 Network.prototype.updatePlayer = function() {

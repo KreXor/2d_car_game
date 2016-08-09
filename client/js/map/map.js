@@ -5,33 +5,6 @@ function WallObject(x,y,width,height){
   this.height = height;
 }
 
-
-PlayerObject.prototype = new MapObject();
-PlayerObject.prototype.constructor = PlayerObject;
-function PlayerObject(type, texture, x, y, z, height, width, rotation, id) {
-
-  this.id = id;
-  this.vf = 0;
-  this.vd = 0;
-
-  this.texture = texture;
-
-  this.type = type;
-  this.rt = 0;
-
-
-	var radian = radian,
-			length = length;
-
-  this.point = new Point( x, y, z );
-
-  this.width = width;
-  this. height = height;
-
-
-  this.rotate(rotation * Math.PI/180);
-}
-
 //Map function from here:
 function Map(map) {
   this.physics = new Physics();
@@ -68,11 +41,13 @@ Map.prototype.loadLevel1 = function() {
   this.setSkyProperties();
 }
 
-Map.prototype.spawnPlayer = function(data) {
+//Adds another network player to the map
+Map.prototype.spawnNetworkPlayer = function(data) {
   this.spawnItem(new PlayerObject(PLAYER, MARIO_TEXTURE, data.x, data.y, data.z, 55, 30, data.r, data.id));
 }
 
-Map.prototype.updatePlayer = function(data){
+//Update new work player on map by id.
+Map.prototype.updateNetworkPlayer = function(data){
   for( var i = 0; i < this.mapObjects.length; ++i ) {
     if(this.mapObjects[ i ].type == PLAYER) {
       if(this.mapObjects[ i ].id == data.id) {
@@ -83,7 +58,8 @@ Map.prototype.updatePlayer = function(data){
   }
 }
 
-Map.prototype.removePlayer = function(id) {
+//Remove network player from game by id
+Map.prototype.removeNetworkPlayer = function(id) {
   for( var i = 0; i < this.mapObjects.length; ++i ) {
     if(this.mapObjects[ i ].type == PLAYER) {
       if(this.mapObjects[ i ].id == id) {
@@ -93,10 +69,12 @@ Map.prototype.removePlayer = function(id) {
   }
 }
 
+//Spawn a object on map
 Map.prototype.spawnItem = function(object) {
   this.mapObjects.push(object);
 }
 
+//Check color
 Map.prototype.checkColor = function(r, g, b) {
   if(r == b && r == g && g == b)
       return ROAD;

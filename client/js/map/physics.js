@@ -18,12 +18,12 @@ Physics.prototype.objectWallBounce = function(i, hit_direction) {
 
     }
     else if(hit_direction == DIRECTION_DOWN) {
-      map.mapObjects[ i ].vd = ((map.mapObjects[ i ].vd - 1.57)*-1)+1.57;
+      map.mapObjects[ i ].vd = ((map.mapObjects[ i ].vd - Math.PI/2)*-1)+ (Math.PI/2);
       map.mapObjects[ i ].point.x = map.mapObjects[ i ].previous_x;
       map.mapObjects[ i ].point.z = map.mapObjects[ i ].previous_z-30;
     }
     else if(hit_direction == DIRECTION_UP) {
-      map.mapObjects[ i ].vd = ((map.mapObjects[ i ].vd - 1.57)*-1)+1.57;
+      map.mapObjects[ i ].vd = ((map.mapObjects[ i ].vd -  Math.PI/2)*-1) + (Math.PI/2);
       map.mapObjects[ i ].point.x = map.mapObjects[ i ].previous_x;
       map.mapObjects[ i ].point.z = map.mapObjects[ i ].previous_z+30;
 
