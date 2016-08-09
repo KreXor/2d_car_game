@@ -22,11 +22,11 @@ function Player(texture) {
 
   this.speed_bonus = 0;
 
+  //Player position and inventory.
   this.item = ITEM_NONE;
   this.road_type = false;
 
   this.coins = 0;
-
   this.vf = 0;
   this.vz = 0;
   this.vy = 0;
@@ -39,17 +39,23 @@ function Player(texture) {
   this.oldy = 0;
   this.oldz = 0;
 
+  //Animator and texture.
   this.animationFrame = 1;
   this.imgSprite = new Image();
-  this.imgSprite_flip = new Image();
 
   this.loadTexture(texture);
 }
 
+//TODO: Move this to constants and preload functions.
 Player.prototype.loadTexture = function(texture) {
   if(texture == 'mario') {
-    this.imgSprite_flip.src = "media/mario_flip.png";
     this.imgSprite.src = "media/mario.png";
+  }
+  if(texture == 'bowser') {
+    this.imgSprite.src = "media/bowser.png";
+  }
+  if(texture == 'peach') {
+    this.imgSprite.src = "media/peach.png";
   }
 }
 
@@ -276,19 +282,9 @@ Player.prototype.onWallCollision = function(){
 }
 
 Player.prototype.draw = function() {
-  if(this.animationFrame == 3) {
-   ctx.drawImage(this.imgSprite_flip, this.imgSprite_flip.width - this.animationFrame*36,0,36,36,
-     w/2-60,
-     h-120-this.y,
-     120,
-     120);
-  }
-  else {
-    ctx.drawImage(this.imgSprite,this.animationFrame*36,0,36,36,
-      w/2-60,
-      h-120-this.y,
-      120,
-      120);
-  }
-
+  ctx.drawImage(this.imgSprite,this.animationFrame*36,0,36,36,
+    w/2-60,
+    h-120-this.y,
+    120,
+    120);
 }

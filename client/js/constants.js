@@ -5,8 +5,9 @@ var DIRECTION_RIGHT = 1001,
 
 //States
 var STATE_MAIN_MENU = 801,
-    STATE_PLAY_MAP = 802,
-    STATE_LOAD_ASSETS = 803;
+    STATE_SELECT_MENU = 802,
+    STATE_PLAY_MAP = 803,
+    STATE_LOAD_ASSETS = 804;
 
     PLAYER_STATE_DRIVE = 850,
     PLAYER_STATE_JUMP = 851,
@@ -42,7 +43,6 @@ var ITEM_NONE = 0,
   var preloader_imageURLs = ["media/Mario_pipe.png",
                     "media/Coin.png",
                     "media/mario.png",
-                    "media/mario_flip.png",
                     "media/brick.png",
                     "media/cloud.png",
                     "media/map.png",
@@ -52,6 +52,12 @@ var ITEM_NONE = 0,
                     "media/tree.png",
                     "media/menu.png",
                     "media/mushroom.png",
+                    "media/bowser.png",
+                    "media/peach.png",
+                    "media/player_select.png",
+
+
+
                   ],
       preloader_images = [],
       preloader_images_count = preloader_imageURLs.length;
@@ -81,7 +87,9 @@ function preLoadTexture() {
   BANANA_PEEL_TEXTURE = new MapTexture("banana_peel.png", 0, 0, 0, 0);
   ITEMS_TEXTURE = new MapTexture("items.png", 32, 0, 0, 0);
   TREE_TEXTURE = new MapTexture("tree.png", 0, 0, 0, 0);
+  SELECT_MENU = new MapTexture("player_select.png", 0, 0, 0, 0);
   MAIN_MENY_BACKGROUND = new MapTexture("menu.png", 0, 0, 0, 0);
   MUSHROOM = new MapTexture("mushroom.png", 0, 0, 0, 0);
+
 
 }

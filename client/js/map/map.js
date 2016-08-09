@@ -87,16 +87,17 @@ Map.prototype.update = function(deltaTime) {
   player.setCollision(false);
 
   for( var i = 0; i < this.mapObjects.length; ++i ) {
+
+    //Update all moving objects on map
     if(this.mapObjects[ i ].vf > 0) {
       this.mapObjects[ i ].move((( Math.sin(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf )*-1)*deltaTime , 0, ((Math.cos(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf)*-1)*deltaTime);
 
       var hit_direction = this.mapObjects[ i ].onWallCollision();
       this.physics.objectWallBounce(i, hit_direction);
-
     }
 
+    //Check if object collide with player and handle
     var type = this.mapObjects[ i ].onPlayerCollision(camera.x, camera.y, camera.z);
-
     this.handleObjectCollision(type, i);
 
     //Set new relative distance to camera
@@ -109,6 +110,8 @@ Map.prototype.update = function(deltaTime) {
   })
 }
 
+
+//Handle collision with object on map
 Map.prototype.handleObjectCollision = function(type, index){
   if(type == COIN)
   {
@@ -130,6 +133,7 @@ Map.prototype.handleObjectCollision = function(type, index){
   }
 }
 
+//Draw all objects on map
 Map.prototype.draw = function() {
   if(camera.draw_mode7)
     this.mode7.draw();
@@ -139,9 +143,8 @@ Map.prototype.draw = function() {
   }
 }
 
-
+//Set clound an sky properties
 Map.prototype.setSkyProperties = function() {
-  this.sky_color = "lightblue";
   this.sky_cloud_amount = 50;
 
   for(var i = 0; i < this.sky_cloud_amount; i++) {

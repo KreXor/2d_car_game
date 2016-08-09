@@ -2,6 +2,7 @@ var camera;
 var player;
 var map;
 var main_menu = new MainMenu();
+var select_menu = new SelectMenu();
 var keyPressed = {};
 var coins = 0;
 var ui = new Ui();
@@ -26,6 +27,11 @@ function anim(now){
   if(game_state == STATE_MAIN_MENU) {
     main_menu.draw();
     main_menu.update();
+  }
+
+  if(game_state == STATE_SELECT_MENU) {
+    select_menu.draw();
+    select_menu.update();
   }
 
   if(game_state == STATE_PLAY_MAP)

@@ -26,7 +26,7 @@ MainMenu.prototype.draw = function() {
 MainMenu.prototype.handleInput = function(now, deltaTime) {
   if(keyPressed[this.key_select]) {
     this.setupMap();
-    game_state = STATE_PLAY_MAP;
+    game_state = STATE_SELECT_MENU;
   }
   if(keyPressed[this.key_up]) {
     if(this.keypressed == false)
@@ -48,10 +48,10 @@ MainMenu.prototype.handleInput = function(now, deltaTime) {
 }
 
 MainMenu.prototype.setupMap = function() {
-  camera = new Camera();
-  player = new Player('mario');
-  map = new Map(LEVEL1_MAP);
+  //camera = new Camera();
+  //player = new Player('peach');
+//  map = new Map(LEVEL1_MAP);
 
   //Join player to game!
-  network.joinPlayer();
+//  network.joinPlayer();
 }
