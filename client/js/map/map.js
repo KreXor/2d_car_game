@@ -34,6 +34,8 @@ function PlayerObject(type, texture, x, y, z, height, width, rotation, id) {
 
 //Map function from here:
 function Map(map) {
+  this.physics = new Physics();
+
   this.mapObjects = [];
   this.wallObjects = [];
 
@@ -111,49 +113,22 @@ Map.prototype.update = function(deltaTime) {
       this.mapObjects[ i ].move((( Math.sin(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf )*-1)*deltaTime , 0, ((Math.cos(this.mapObjects[ i ].vd) * this.mapObjects[ i ].vf)*-1)*deltaTime);
 
       var hit_direction = this.mapObjects[ i ].onWallCollision();
+      this.physics.objectWallBounce(i, hit_direction);
 
-      if(hit_direction != -1) {
-
-        //Add bounce
-        if(hit_direction == DIRECTION_RIGHT) {
-          this.mapObjects[ i ].vd = this.mapObjects[ i ].vd*-1;
-          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x-30;
-          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z;
-        }
-        else if(hit_direction == DIRECTION_LEFT) {
-          this.mapObjects[ i ].vd = this.mapObjects[ i ].vd *-1;
-          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x+30;
-          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z;
-
-        }
-        else if(hit_direction == DIRECTION_DOWN) {
-          this.mapObjects[ i ].vd = ((this.mapObjects[ i ].vd - 1.57)*-1)+1.57;
-          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x;
-          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z-30;
-        }
-        else if(hit_direction == DIRECTION_UP) {
-          this.mapObjects[ i ].vd = ((this.mapObjects[ i ].vd - 1.57)*-1)+1.57;
-          this.mapObjects[ i ].point.x = this.mapObjects[ i ].previous_x;
-          this.mapObjects[ i ].point.z = this.mapObjects[ i ].previous_z+30;
-
-        }
-        else if(hit_direction == 0){
-          console.log("0");
-          this.mapObjects.splice(i, 1);
-        }
-      }
-
-      this.mapObjects[ i ].previous_x = this.mapObjects[ i ].point.x;
-      this.mapObjects[ i ].previous_z = this.mapObjects[ i ].point.z;
-
-      this.mapObjects[ i ].rotate( this.mapObjects[ i ].r );
     }
 
     var type = this.mapObjects[ i ].onPlayerCollision(camera.x, camera.y, camera.z);
 
     this.handleObjectCollision(type, i);
 
+    //Set new relative distance to camera
+    this.mapObjects[ i ].setRelativeDist();
   }
+
+  //Sort object after realative depth of camera. This is done so object do not overlap.
+  this.mapObjects.sort( function( a, b ) {
+    return b.point.relativeZ - a.point.relativeZ;
+  })
 }
 
 Map.prototype.handleObjectCollision = function(type, index){
@@ -180,13 +155,6 @@ Map.prototype.handleObjectCollision = function(type, index){
 Map.prototype.draw = function() {
   if(camera.draw_mode7)
     this.mode7.draw();
-
-  for( var i = 0; i < this.mapObjects.length; ++i )
-    this.mapObjects[ i ].setRelativeDist();
-
-  this.mapObjects.sort( function( a, b ) {
-    return b.point.relativeZ - a.point.relativeZ;
-  })
 
   for( var i = 0; i < this.mapObjects.length; ++i ) {
     this.mapObjects[ i ].draw();

@@ -68,7 +68,6 @@ MapObject.prototype.setRelativeDist = function(){
 }
 
 MapObject.prototype.onPlayerCollision = function(x, y, z){
-//  if(this.type == SOLID || this.type == COIN || this.type == BLOCK) {
     if(this.point.screen.x + this.width*this.point.screen.scale > w/2-15 &&
       this.point.screen.x - this.width*this.point.screen.scale < w/2+15  &&
       this.point.screen.y > h-50 &&
@@ -78,7 +77,6 @@ MapObject.prototype.onPlayerCollision = function(x, y, z){
 
         return this.type;
     }
-//  }
   return false;
 }
 
