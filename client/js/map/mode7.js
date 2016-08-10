@@ -95,9 +95,7 @@ Mode7.prototype.draw = function() {
     }
 
   }
-  //var img = ground_canvas.toDataURL("image/png");
-  //ctx.drawImage(img, 0, 0, img.width, img.height);
-    //ctx.fillStyle = ctx.createPattern(stage_image.Image, "no-repeat");
+  
   ctx.putImageData( stage_image, 0, 0);
 
 

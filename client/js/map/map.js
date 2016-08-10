@@ -15,6 +15,7 @@ function Map(map) {
   this.gravity = 600;
   this.deacceleration = 150;
   this.mode7;
+  this.laps;
 
   if(map == LEVEL1_MAP)
     this.loadLevel1();
@@ -27,11 +28,13 @@ Map.prototype.loadLevel1 = function() {
   //Set map attributes
   this.gravity = 2000;
   this.deacceleration = 150;
+  this.laps = 5;
 
   //Set player start location/rotation
   player.setX(450);
   player.setZ(-3700);
   player.setR(3.14);
+  player.lap = 1;
 
   //Add item to map
   this.mapObjects = level1;

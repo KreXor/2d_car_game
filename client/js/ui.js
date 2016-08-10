@@ -12,14 +12,21 @@ Ui.prototype.draw = function(now, coins) {
   ctx.fillStyle = 'white';
   ctx.strokStyle = 'black';
 
+  //Number of coins
   ctx.drawImage(COIN_TEXTURE.get(),30,20, 30,30);
   ctx.fillText(" x "+player.coins, 60, 45);
   ctx.strokeText(" x "+player.coins, 60, 45);
 
-
+  //Lap time
   ctx.fillText((now/1).toString().toHHMMSS() ,w-150,45);
   ctx.strokeText((now/1).toString().toHHMMSS() ,w-150,45);
 
+  ctx.font = "40px mario";
+  //Lan Number
+  ctx.fillText(player.lap+"/"+map.laps, w-400, 65);
+  ctx.strokeText(player.lap+"/"+map.laps, w-400, 65);
+
+  //Fps
   ctx.font = "20px mario";
   ctx.fillText("FPS: "+Math.floor(timer.fps(Date.now())) ,5,h-15);
   ctx.strokeText("FPS: "+Math.floor(timer.fps(Date.now())) ,5,h-15);

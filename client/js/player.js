@@ -21,6 +21,7 @@ function Player(texture) {
   this.state = PLAYER_STATE_DRIVE;
 
   this.speed_bonus = 0;
+  this.lap = 1;
 
   //Player position and inventory.
   this.item = ITEM_NONE;

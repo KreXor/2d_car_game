@@ -13,10 +13,10 @@ SelectMenu.prototype.update = function() {
 SelectMenu.prototype.draw = function() {
   ctx.fillRect(0,0,w,h);
   ctx.drawImage(SELECT_MENU.get(),(SELECT_MENU.frame_y*SELECT_MENU.width), (SELECT_MENU.frame_y*SELECT_MENU.height), SELECT_MENU.width, SELECT_MENU.height,
-    w/2-100,
+    100,
     0,
-    200,
-    100);
+    w-200,
+    h);
 }
 
 SelectMenu.prototype.handleInput = function(now, deltaTime) {
