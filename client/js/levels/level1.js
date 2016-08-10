@@ -11,10 +11,11 @@ var level1_walls = [
                     //Big suare middle down
                     new WallObject((227*14.0), (0*14.2)*-1, (56*14.0), (115*14.8)*-1),
                   //  new WallObject((*14.2), (*14.2)*-1, (*14.2), (*14.2)*-1),
-
-
-
                   ]
+
+var level1_checkpoints = [new WallObject(4000, -3000, 3000, -3000),
+                          new WallObject(0,-2920,1200,-100)];
+
 var level1 = 0;
 
 function preloadLevels(){

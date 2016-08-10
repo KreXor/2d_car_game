@@ -80,7 +80,6 @@ MapObject.prototype.onPlayerCollision = function(x, y, z){
   return false;
 }
 
-
 MapObject.prototype.onWallCollision = function(){
   for(var wall in map.wallObjects)
   {
@@ -141,6 +140,7 @@ MapObject.prototype.draw = function(){
   for( var i = 0; i < this.points.length; ++i )
     this.points[ i ].dimensionize();
   if(this.texture != 0) {
+
   ctx.drawImage(this.texture.get(),(this.texture.frame_x*this.texture.width), (this.texture.frame_y*this.texture.height), this.texture.width,this.texture.height,
     this.points[ 0 ].screen.x,
     this.points[ 0 ].screen.y,

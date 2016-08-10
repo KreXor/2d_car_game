@@ -11,6 +11,7 @@ function Map(map) {
 
   this.mapObjects = [];
   this.wallObjects = [];
+  this.checkpoints = [];
 
   this.gravity = 600;
   this.deacceleration = 150;
@@ -28,7 +29,7 @@ Map.prototype.loadLevel1 = function() {
   //Set map attributes
   this.gravity = 2000;
   this.deacceleration = 150;
-  this.laps = 5;
+  this.laps = 2;
 
   //Set player start location/rotation
   player.setX(450);
@@ -39,6 +40,7 @@ Map.prototype.loadLevel1 = function() {
   //Add item to map
   this.mapObjects = level1;
   this.wallObjects = level1_walls;
+  this.checkpoints  = level1_checkpoints;
 
   //Add clouds
   this.setSkyProperties();

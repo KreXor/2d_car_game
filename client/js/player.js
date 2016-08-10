@@ -21,11 +21,13 @@ function Player(texture) {
   this.state = PLAYER_STATE_DRIVE;
 
   this.speed_bonus = 0;
-  this.lap = 1;
+
 
   //Player position and inventory.
   this.item = ITEM_NONE;
   this.road_type = false;
+  this.lap = 1;
+  this.checkpoints_reached = [];
 
   this.coins = 0;
   this.vf = 0;
@@ -165,6 +167,10 @@ Player.prototype.update = function(now, deltaTime) {
   this.oldy = this.y;
   this.oldz = this.z;
 
+  this.onCheckpointCollision();
+  if(this.lap > map.laps)
+    game_state = STATE_MAIN_MENU;
+    
   network.updatePlayer();
 }
 
@@ -257,6 +263,33 @@ Player.prototype.move = function(deltaTime) {
     this.z -= camera.cos * (this.vf * deltaTime);
   }
 }
+
+Player.prototype.onCheckpointCollision = function () {
+  for(var index in map.checkpoints)
+  {
+    if(map.checkpoints[index].x < (player.x - Math.sin(player.r)*220) + 50 &&
+       map.checkpoints[index].x + map.checkpoints[index].width > (player.x - Math.sin(player.r)*220)  &&
+       map.checkpoints[index].y > (player.z - Math.cos(player.r)*200) - 100 &&
+       map.checkpoints[index].y + map.checkpoints[index].height < (player.z - Math.cos(player.r)*220)  ) {
+
+         if(this.checkpoints_reached.length == map.checkpoints.length && index == map.checkpoints.length-1) {
+           this.lap += 1;
+           this.checkpoints_reached = [];
+         }
+
+         for(var j in this.checkpoints_reached) {
+           if(this.checkpoints_reached[j] == index) {
+             return;
+           }
+
+         }
+         this.checkpoints_reached.push(index);
+
+    }
+  }
+
+  return -1;
+};
 
 Player.prototype.onWallCollision = function(){
   for(var wall in map.wallObjects)
