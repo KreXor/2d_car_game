@@ -130,12 +130,12 @@ Player.prototype.setCollision = function(coll) {
 Player.prototype.rotate = function(r){
   this.setR(camera.r + r);
   if(r > 0) {
-    this.setX(camera.x + Math.cos(camera.r)*(this.rotation_speed*5.5));
-    this.setZ(camera.z - Math.sin(camera.r)*(this.rotation_speed*5.5));
+    this.setX(camera.x + Math.cos(camera.r)*(this.rotation_speed*5));
+    this.setZ(camera.z - Math.sin(camera.r)*(this.rotation_speed*5));
   }
   else {
-    this.setX(camera.x - Math.cos(camera.r)*(this.rotation_speed*5.5));
-    this.setZ(camera.z + Math.sin(camera.r)*(this.rotation_speed*5.5));
+    this.setX(camera.x - Math.cos(camera.r)*(this.rotation_speed*5));
+    this.setZ(camera.z + Math.sin(camera.r)*(this.rotation_speed*5));
   }
 }
 
