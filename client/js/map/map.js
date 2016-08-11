@@ -129,6 +129,7 @@ Map.prototype.handleObjectCollision = function(type, index){
   }
   if(type == ITEM_BANAN_PEEL)
   {
+    this.mapObjects.splice(index, 1);
     player.itemHit(ITEM_BANAN_PEEL);
   }
   if(type == ITEM_GREEN_SHELL)
