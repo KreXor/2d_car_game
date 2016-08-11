@@ -1,10 +1,11 @@
 PlayerObject.prototype = new MapObject();
 PlayerObject.prototype.constructor = PlayerObject;
-function PlayerObject(type, texture, x, y, z, height, width, rotation, id) {
+function PlayerObject(type, texture, x, y, z, height, width, rotation, id, direction) {
 
   this.id = id;
   this.vf = 0;
   this.vd = 0;
+  this.direction = direction
 
   this.texture = texture;
 

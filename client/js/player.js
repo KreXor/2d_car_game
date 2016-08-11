@@ -4,7 +4,7 @@ function Player(texture) {
   this.key_back = 83;
   this.key_left = 65;
   this.key_right = 68;
-  this.key_use_item = 16  ;
+  this.key_use_item = 16;
   this.key_jump = 32;
 
   //Player behaviour
@@ -72,7 +72,12 @@ Player.prototype.itemTaken = function() {
 Player.prototype.itemHit = function(item) {
   if(item == ITEM_BANAN_PEEL) {
     this.state = PLAYER_STATE_SPIN;
+    this.vf = 0;
     console.log("You spin me round right round.");
+  }
+  if(item == ITEM_GREEN_SHELL) {
+    this.vf = 0;
+    console.log("ow ow ow, that shell fucked me up good");
   }
 
 }
@@ -125,12 +130,12 @@ Player.prototype.setCollision = function(coll) {
 Player.prototype.rotate = function(r){
   this.setR(camera.r + r);
   if(r > 0) {
-    this.setX(camera.x + Math.cos(camera.r)*(this.rotation_speed*5.5));
-    this.setZ(camera.z - Math.sin(camera.r)*(this.rotation_speed*5.5));
+    this.setX(camera.x + Math.cos(camera.r)*(this.rotation_speed*5));
+    this.setZ(camera.z - Math.sin(camera.r)*(this.rotation_speed*5));
   }
   else {
-    this.setX(camera.x - Math.cos(camera.r)*(this.rotation_speed*5.5));
-    this.setZ(camera.z + Math.sin(camera.r)*(this.rotation_speed*5.5));
+    this.setX(camera.x - Math.cos(camera.r)*(this.rotation_speed*5));
+    this.setZ(camera.z + Math.sin(camera.r)*(this.rotation_speed*5));
   }
 }
 
@@ -143,7 +148,7 @@ Player.prototype.update = function(now, deltaTime) {
   var p = ctx.getImageData(w/2,h-30,1,1).data;
   this.road_type = map.checkColor(p[0], p[1], p[2]);
 
-  //Handle jump
+  //Handle jump and input
   if(player.state != PLAYER_STATE_JUMP)
     this.handleInput(now, deltaTime);
   else
@@ -163,6 +168,7 @@ Player.prototype.update = function(now, deltaTime) {
   camera.setZ(this.z);
   camera.setR(this.r);
 
+  //Store old position for player so we can revert to this on collision
   this.oldx = this.x;
   this.oldy = this.y;
   this.oldz = this.z;

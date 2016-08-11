@@ -127,9 +127,9 @@ MapObject.prototype.draw = function(){
     this.rt += 0.1;
     this.rotate( this.rt * -1  );
   }
-  else if(this.type == PLAYER){
+  /*else if(this.type == PLAYER){
     this.rotate( this.r );
-  }
+  }*/
   else {
     this.rotate( camera.r * -1  );
   }

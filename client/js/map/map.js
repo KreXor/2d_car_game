@@ -42,6 +42,8 @@ Map.prototype.loadLevel1 = function() {
   this.wallObjects = level1_walls;
   this.checkpoints  = level1_checkpoints;
 
+  this.spawnItem(new PlayerObject(PLAYER, MARIO_TEXTURE, 500, 0, -3000, 55, 30, 0, 0, 3.14));
+
   //Add clouds
   this.setSkyProperties();
 }
@@ -50,6 +52,40 @@ Map.prototype.loadLevel1 = function() {
 Map.prototype.spawnNetworkPlayer = function(data) {
   this.spawnItem(new PlayerObject(PLAYER, MARIO_TEXTURE, data.x, data.y, data.z, 55, 30, data.r, data.id));
 }
+
+
+//Temp function if you find this and not know what it is you can probebly remove it,
+ Map.prototype.tempUpdate = function(){
+   for( var i = 0; i < this.mapObjects.length; ++i ) {
+     if(this.mapObjects[ i ].type == PLAYER) {
+       if(this.mapObjects[ i ].id == 0) {
+
+         var r = this.mapObjects[ i ].direction;
+
+         var c = Math.cos(r);
+         var s = Math.sin(r);
+          console.log(r+" "+c+" "+s);
+
+         var new_x = this.mapObjects[ i ].point.x*c - player.x*c;
+         var new_z = this.mapObjects[ i ].point.z*c - player.z*c;
+         var theta = Math.atan2(-new_z, new_x);
+
+         console.log(theta);
+         if(theta > 0.7+s && theta < 2.2+s)
+            this.mapObjects[ i ].texture.frame_x = 1;
+         else if(theta > -1+s && theta < 0.7+s)
+            this.mapObjects[ i ].texture.frame_x = 4;
+        else if(theta > 2.2+s || theta < -2+s)
+          this.mapObjects[ i ].texture.frame_x = 5;
+         else
+           this.mapObjects[ i ].texture.frame_x = 0;
+
+
+       }
+     }
+   }
+ }
+
 
 //Update new work player on map by id.
 Map.prototype.updateNetworkPlayer = function(data){
@@ -90,7 +126,7 @@ Map.prototype.checkColor = function(r, g, b) {
 Map.prototype.update = function(deltaTime) {
 
   player.setCollision(false);
-
+  this.tempUpdate(); //TODO: REMOVE THIS ROW WHEN YOU ARE DONE! AND FUNCTION!
   for( var i = 0; i < this.mapObjects.length; ++i ) {
 
     //Update all moving objects on map
@@ -129,6 +165,7 @@ Map.prototype.handleObjectCollision = function(type, index){
   }
   if(type == ITEM_BANAN_PEEL)
   {
+    this.mapObjects.splice(index, 1);
     player.itemHit(ITEM_BANAN_PEEL);
   }
   if(type == ITEM_GREEN_SHELL)
@@ -157,9 +194,5 @@ Map.prototype.setSkyProperties = function() {
     var cz = Math.floor((Math.random() * cameraSettings.renderArea) + 1 );
     this.mapObjects.push( new MapObject(CLOUD, CLOUD_TEXTURE, cx, 700, cz*-1, 300, 200 ));
   }
-
-}
-
-Map.prototype.spawnItems = function(item) {
 
 }
