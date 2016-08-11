@@ -42,7 +42,7 @@ Map.prototype.loadLevel1 = function() {
   this.wallObjects = level1_walls;
   this.checkpoints  = level1_checkpoints;
 
-  this.spawnItem(new PlayerObject(PLAYER, MARIO_TEXTURE, 500, 0, -3000, 55, 30, 0, 0, 3.14));
+  this.spawnItem(new PlayerObject(PLAYER, MARIO_TEXTURE, 500, 0, -3000, 55, 30, 0, 0, 0));
 
   //Add clouds
   this.setSkyProperties();
@@ -59,28 +59,7 @@ Map.prototype.spawnNetworkPlayer = function(data) {
    for( var i = 0; i < this.mapObjects.length; ++i ) {
      if(this.mapObjects[ i ].type == PLAYER) {
        if(this.mapObjects[ i ].id == 0) {
-
-         var r = this.mapObjects[ i ].direction;
-
-         var c = Math.cos(r);
-         var s = Math.sin(r);
-          console.log(r+" "+c+" "+s);
-
-         var new_x = this.mapObjects[ i ].point.x*c - player.x*c;
-         var new_z = this.mapObjects[ i ].point.z*c - player.z*c;
-         var theta = Math.atan2(-new_z, new_x);
-
-         console.log(theta);
-         if(theta > 0.7+s && theta < 2.2+s)
-            this.mapObjects[ i ].texture.frame_x = 1;
-         else if(theta > -1+s && theta < 0.7+s)
-            this.mapObjects[ i ].texture.frame_x = 4;
-        else if(theta > 2.2+s || theta < -2+s)
-          this.mapObjects[ i ].texture.frame_x = 5;
-         else
-           this.mapObjects[ i ].texture.frame_x = 0;
-
-
+         this.mapObjects[ i ].changeAngle();
        }
      }
    }
