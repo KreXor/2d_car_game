@@ -170,7 +170,7 @@ Player.prototype.update = function(now, deltaTime) {
   this.onCheckpointCollision();
   if(this.lap > map.laps)
     game_state = STATE_MAIN_MENU;
-    
+
   network.updatePlayer();
 }
 
