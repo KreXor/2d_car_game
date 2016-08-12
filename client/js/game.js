@@ -6,6 +6,7 @@ var select_menu = new SelectMenu();
 var keyPressed = {};
 var coins = 0;
 var ui = new Ui();
+var minimap = new Minimap();
 
 function init(){
   preLoadTexture();
@@ -43,7 +44,8 @@ function anim(now){
     player.update(now, deltaTime);
     player.draw();
 
-    ui.draw(now, coins)
+    ui.draw(now, coins);
+    minimap.draw();
   }
 }
 

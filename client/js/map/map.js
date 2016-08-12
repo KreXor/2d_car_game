@@ -55,7 +55,7 @@ Map.prototype.spawnNetworkPlayer = function(data) {
 
 
 //Temp function if you find this and not know what it is you can probebly remove it,
- Map.prototype.tempUpdate = function(){
+ Map.prototype.updateAiPlayer = function(){
    for( var i = 0; i < this.mapObjects.length; ++i ) {
      if(this.mapObjects[ i ].type == PLAYER) {
        if(this.mapObjects[ i ].id == 0) {
@@ -72,7 +72,9 @@ Map.prototype.updateNetworkPlayer = function(data){
     if(this.mapObjects[ i ].type == PLAYER) {
       if(this.mapObjects[ i ].id == data.id) {
         this.mapObjects[ i ].moveTo(data.x, data.y, data.z);
-        this.mapObjects[ i ].rotate(data.r);
+        this.mapObjects[ i ].direction = data.r;
+        this.mapObjects[ i ].changeAngle();
+        //this.mapObjects[ i ].rotate(data.r);
       }
     }
   }
@@ -105,7 +107,7 @@ Map.prototype.checkColor = function(r, g, b) {
 Map.prototype.update = function(deltaTime) {
 
   player.setCollision(false);
-  this.tempUpdate(); //TODO: REMOVE THIS ROW WHEN YOU ARE DONE! AND FUNCTION!
+  this.updateAiPlayer(); //TODO: REMOVE THIS ROW WHEN YOU ARE DONE! AND FUNCTION!
   for( var i = 0; i < this.mapObjects.length; ++i ) {
 
     //Update all moving objects on map
