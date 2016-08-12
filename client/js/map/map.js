@@ -42,7 +42,7 @@ Map.prototype.loadLevel1 = function() {
   this.wallObjects = level1_walls;
   this.checkpoints  = level1_checkpoints;
 
-  this.spawnItem(new PlayerObject(PLAYER, MARIO_TEXTURE, 500, 0, -3000, 55, 30, 0, 0, 0));
+  this.spawnItem(new Ai(AI, MARIO_TEXTURE, 500, 0, -3300, 55, 30, 0, 0, Math.PI));
 
   //Add clouds
   this.setSkyProperties();
@@ -57,9 +57,10 @@ Map.prototype.spawnNetworkPlayer = function(data) {
 //Temp function if you find this and not know what it is you can probebly remove it,
  Map.prototype.updateAiPlayer = function(){
    for( var i = 0; i < this.mapObjects.length; ++i ) {
-     if(this.mapObjects[ i ].type == PLAYER) {
+     if(this.mapObjects[ i ].type == AI) {
        if(this.mapObjects[ i ].id == 0) {
          this.mapObjects[ i ].changeAngle();
+         this.mapObjects[ i ].update();
        }
      }
    }

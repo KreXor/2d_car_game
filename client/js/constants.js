@@ -21,8 +21,9 @@ var SOLID = 300,
     COIN = 301,
     PLAYER = 302,
     CLOUD = 303,
-    BLOCK = 304;
-    ITEM = 305;
+    BLOCK = 304,
+    ITEM = 305,
+    AI = 306;
 
 //Ground types
 var ROAD = 100,
@@ -55,6 +56,7 @@ var ITEM_NONE = 0,
                     "media/bowser.png",
                     "media/peach.png",
                     "media/player_select.png",
+                    "media/minimap.png",
 
 
 
@@ -90,6 +92,7 @@ function preLoadTexture() {
   SELECT_MENU = new MapTexture("player_select.png", 0, 0, 0, 0);
   MAIN_MENY_BACKGROUND = new MapTexture("menu.png", 0, 0, 0, 0);
   MUSHROOM = new MapTexture("mushroom.png", 0, 0, 0, 0);
+  MINIMAP_TEXTURE = new MapTexture("minimap.png", 0, 0, 0, 0);
 
 
 }
